@@ -20,7 +20,6 @@ var LinkedList = function(){
           current.next = LinkedList.makeNode();
           current.next.data = data;
           this.end = current.next;
-          console.log("this.end: ", this.end);
           return;
         }
         current = current.next;
@@ -37,8 +36,6 @@ var LinkedList = function(){
       while(current !== null){
         if(current === this.end){
           this.end = previous;
-          // console.log("this.end: ", this.end);
-          // console.log("this.start: ", this.start);
           return current.data;
         }
         previous = current;
@@ -47,18 +44,54 @@ var LinkedList = function(){
     }
   }; 
 
-	this.shift = function(){};
-	this.unshift = function(){};
+	this.shift = function(){
+    if(this.start === null){
+      return undefined;
+    } else {
+      var old = this.start;
+      var novo = this.start.next;
+      this.start = novo;
+      return old.data;
+    }
+  };
+  
+	this.unshift = function(data){
+    if(this.start === null){
+      this.start = LinkedList.makeNode();
+      this.start.data = data;
+      this.end = this.start;
+    } else {
+      var novo = LinkedList.makeNode();
+      novo.data = data;
+      novo.next = this.start;
+      this.start = novo;
+    }
+  };
 
+  this.count = function(){
+    var counter = 0;
+    var current = this.start;
+    while(current !== null){
+      counter++;
+      current = current.next;
+    }
+    return counter;
+  };
 
-
+  this.delete = function(data){
+    var current = this.start;
+    var previous = this.start;
+    while(current !== null){
+      if(current.data === data){
+        previous.next = current.next;
+        delete current;
+        return;
+      }
+      previous = current;
+      current = current.next;
+    }
+  };
 };
 
 
 module.exports = LinkedList;
-
-
-// this.end.next = LinkedList.makeNode();
-// this.end.next.data = data;
-// this.end.next.next = null;
-// this.end = this.end.next;
